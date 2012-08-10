@@ -2,6 +2,11 @@
 include("core/wallet.php");
 include('templates/header.php');
 
+$data = shell_exec('uptime');
+$uptime = explode(' up ', $data);
+$uptime = explode(',', $uptime[1]);
+$uptime = $uptime[0] . ', ' . $uptime[1];
+
 // index page
 ?>
 
@@ -35,10 +40,15 @@ include('templates/header.php');
             <tr><td>Server wallets created: </td><td>' . $count['wallets'] . '</td></tr>
             <tr><td>Server block count: </td><td>' . $derp['blocks'] . '</td></tr>
             <tr><td>Server connections: </td><td>' . $derp['connections'] . '</td></tr>
-            <!--<tr><td>Server recieved: </td><td>' . $btclient->getbalance(NULL,0) . ' LTC</td></tr>-->
+            <tr><td>Server protocolversion: </td><td>' . $derp['protocolversion'] . '</td></tr>
+            <tr><td>Server keypoololdest: </td><td>' . $derp['keypoololdest'] . '</td></tr>
+            <tr><td>Server keypoolsize: </td><td>' . $derp['keypoolsize'] . '</td></tr>
+            <tr><td>Server paytxfee: </td><td>' . $derp['paytxfee'] . '</td></tr>
+            <tr><td>Server minimun input: </td><td>' . $derp['mininput'] . '</td></tr>
             <tr><td>Server version: </td><td>' . $derp['version'] . '</td></tr>
             <tr><td>Donation address: </td><td>' . $btclient->getaccountaddress($don_account) . '</td></tr>
             <tr><td>Donations recieved: </td><td>' . $btclient->getbalance($don_account,0) . ' LTC</td></tr>
+            <!--<tr><td>Server errors: </td><td>' . $derp['errors'] . '</td></tr>-->
             </table>';
 
               echo '<h3>Other information</h3>
@@ -47,6 +57,7 @@ include('templates/header.php');
             <tr><td>Server IP Address: </td><td>' . $_SERVER['SERVER_ADDR'] . '</td></tr>
             <tr><td>Server requested file: </td><td>' . $_SERVER['REQUEST_URI'] . '</td></tr>
             <tr><td>Server time: </td><td>' . date("D M j G:i:s T Y") . '</td></tr>
+            <tr><td>Server uptime/users online: </td><td>' . $uptime . '</td></tr>
             <tr><td>Your IP/Host: </td><td>' . gethostbyaddr($_SERVER['REMOTE_ADDR']) . '</td></tr></table></div>
             <br><br>
             <center><h3>All Recent transactions</h3></center>
@@ -56,21 +67,14 @@ include('templates/header.php');
 
 
 
-              foreach($dump as $herp) {
-                echo "<tr><td>" . $herp['confirmations'] . "</td><td><input type='text' value='" . $herp['address'] . "' /></td><td>". $herp['amount'] . "</td><td>" . ($herp['fee'] ? $herp["fee"] : 0) . "</td><td><input type='text' value='" . $herp['txid'] . "' /></td></tr>";
-              }
-              echo "</table>";
-              /**
-             * foreach($dump as $ky) {
-                $z = array_keys($dump);
-                if(!$i) $i = 0;
-                echo "<tr><td>" . $z[$i] . "</td><td>" . $ky[0] . "</td></tr>";
-                $i++;
-            }*/
-              // print_r($dump);
-              //foreach ($dump as $herp) {
-              //echo "<tr><td>" . $herp['category'] . "</td><td><input type='text' value='" . $herp['address'] . "' /></td><td>". $herp['amount'] . "</td><td>" . $herp['confirmations'] . "</td><td>" . $herp['fee'] . "</td><td><input type='text' value='" . $herp['txid'] . "' /></td></tr>";
-              //}
+    foreach ($dump as $herp) {
+        echo "<tr><td>" . $herp['confirmations'] . "</td><td><input type='text' value='" .
+            $herp['address'] . "' /></td><td>" . $herp['amount'] . "</td><td>" . ($herp['fee'] ?
+            $herp["fee"] : 0) . "</td><td><input type='text' value='" . $herp['txid'] .
+            "' /></td></tr>";
+    }
+    echo "</table>";
+
 
 
               $transactions = $btclient->query('listtransactions', '', '240');

@@ -37,14 +37,24 @@ echo '
              <center><h3>Recent transactions</h3></center>
 
             <table class=\'bordered-table condensed-table zebra-striped\'><tr><td>Confirms</td><td>Type</td><td>Amount</td><td>Fee</td></tr>';
-              $dump = array_reverse($btclient->listtransactions());
+$dump = array_reverse($btclient->listtransactions());
 
 
-
-              foreach($dump as $herp) {
-                echo "<tr><td>" . $herp['confirmations'] . "</td><td>" . $herp['category'] . "</td><td>". $herp['amount'] . "</td><td>" . ($herp['fee'] ? $herp["fee"] : 0) . "</td></tr>";
-              }
-              echo "</table>";
+foreach ($dump as $herp) {
+    if ($herp['category'] != "move") {
+        if ($herp['category'] == "send") {
+            $herp['amount'] = $herp['amount'] * -1;
+            $color = "maroon";
+        } else {
+            $color = "green";
+        }
+        $herp["fee"] = $herp["fee"] * -1;
+        echo "<tr><td>" . $herp['confirmations'] . "</td><td>" . $herp['category'] .
+            "</td><td><font color='{$color}'>" . $herp['amount'] . "</font></td><td>" . ($herp['fee'] ?
+            $herp["fee"] : 0) . "</td></tr>";
+    }
+}
+echo "</table>";
 ?>
           </div>
 
