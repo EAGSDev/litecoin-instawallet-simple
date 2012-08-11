@@ -5,6 +5,8 @@ this is the simplest version of it, other might get released in time
 
 made by g2x3k & someguy123 2011-2012 (c)
 
+edits by Greedi 2012
+
 
 INSTALL:
 put files in www dir, rename & edit config.example.php with proper values
