@@ -5,7 +5,7 @@ this is the simplest version of it, other might get released in time
 
 made by g2x3k & someguy123 2011-2012 (c)
 
-edits by Greedi 2012
+Modded by Greedi 2012
 
 
 INSTALL:
@@ -28,7 +28,3 @@ apache config {
 }
 
 with great powers come great resposibility.
-
-// to use core/banned.php
-
-just just put include ('core/banned.php'); on top of every page you want IP banned from.

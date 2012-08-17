@@ -1,4 +1,5 @@
 <?php
+include ('core/banned.php');
 // pre html functions.. get rid of getaddress.php, retaddress.php
 
 // todo: session based anti request-spam system ..
@@ -92,10 +93,8 @@
           mnu_btn("vault?key=$_SESSION[key]", "My Vault");
           if ($_SERVER['REMOTE_ADDR'] == "188.176.162.157" or $_SERVER['REMOTE_ADDR'] == gethostbyname('cg999.ath.cx'))
           mnu_btn("server", "Server");
-          if ($_SESSION["key"])
-          mnu_btn("logout", "Logout");
-
-
+//          if ($_SESSION["key"])   // Outcommit this, to get the Log out link. I'll not suggest doing this.
+//          mnu_btn("logout", "Logout");
           function mnu_btn($link,$title,$preg = false) {
 
             if (!$preg)
